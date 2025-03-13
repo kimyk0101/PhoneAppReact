@@ -25,13 +25,36 @@ function PhoneAppDetail() {
     }
   };
 
+  const handleDelete = async () => {
+    if (window.confirm("정말로 삭제하시겠습니까?")) {
+      try {
+        const deleteUrl = `http://localhost:8090/api/phoneApp/delete/${id}`;
+        const response = await fetch(deleteUrl, {
+          method: "DELETE",
+        });
+
+        if (!response.ok) {
+          throw new Error("삭제할 수 없습니다.");
+        }
+
+        alert("연락처가 삭제되었습니다.");
+        navigate("/");
+      } catch (error) {
+        console.error("삭제 중 오류 발생:", error);
+      }
+    }
+  };
+
   if (!contact) return <div>로딩 중...</div>;
 
   return (
     <div className="contact-detail">
-        {/* 돌아가기 버튼 Todo: 왼쪽 상단에 */}
+      {/* 돌아가기 버튼 Todo: 왼쪽 상단에 */}
       <button onClick={() => navigate("/")} className="back-button">
         돌아가기
+      </button>
+      <button onClick={() => navigate(`/edit/${id}`)} className="edit-button">
+        편집
       </button>
 
       {/* 이름 */}
@@ -52,8 +75,10 @@ function PhoneAppDetail() {
           <span>메모:</span> <span>{contact.memo}</span>
         </div>
       </div>
-
-      
+      {/* 연락처 삭제 버튼 */}
+      <button onClick={handleDelete} className="delete-button">
+        연락처 삭제
+      </button>
     </div>
   );
 }

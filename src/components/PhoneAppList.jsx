@@ -39,10 +39,10 @@ function PhoneAppList() {
         return;
       } else if (!isNaN(value)) {
         //  숫자 입력 시
-        response = await fetch(`http://localhost:8090/api/search_phone_number/${value}`);
+        response = await fetch(`http://localhost:8090/api/phoneApp/search_phone_number/${value}`);
       } else {
         //  문자 입력 시
-        response = await fetch(`http://localhost:8090/api/search_name/${value}`);
+        response = await fetch(`http://localhost:8090/api/phoneApp/search_name/${value}`);
       }
 
       if(!response.ok) {
