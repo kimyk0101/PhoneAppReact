@@ -1,0 +1,32 @@
+.contact-detail {
+    padding: 20px;
+  }
+  
+  .contact-detail h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .contact-info .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .contact-info .row span:first-child {
+    font-weight: bold;
+  }
+  
+  .back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .back-button:hover {
+    background-color: #0056b3;
+  }
+  

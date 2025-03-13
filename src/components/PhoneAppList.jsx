@@ -1,117 +1,97 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "../css/PhoneAppList.css";
 
-function PhoneAppList({ contacts, updateContact, deleteContact }) {
-  const [editModes, setEditModes] = useState({});
-  const [editValues, setEditValues] = useState({});
+function PhoneAppList() {
+  const [contacts, setContacts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const apiUrl = "http://localhost:8090/api/phoneApp";
+
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+
+  const fetchContacts = async () => {
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error("연락처를 받아오지 못했습니다.");
+      }
+      const data = await response.json();
+      setContacts(data);
+    } catch (error) {
+      console.error("ERROR", error);
+    }
+  };
+
+  // 이름 또는 전화번호로 검색
+  const handleSearch = async (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    try {
+      let response;
+      if (value.trim() === "") {
+        //  검색어가 없으면
+        fetchContacts();  //  전체 목록 가져오기
+        return;
+      } else if (!isNaN(value)) {
+        //  숫자 입력 시
+        response = await fetch(`http://localhost:8090/api/search_phone_number/${value}`);
+      } else {
+        //  문자 입력 시
+        response = await fetch(`http://localhost:8090/api/search_name/${value}`);
+      }
+
+      if(!response.ok) {
+        throw new Error("검색 연락처를 받아오지 못했습니다.");
+      }
+
+      const data = await response.json();
+      setContacts(data);
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
+
   return (
     <div className="container">
-      <table>
-        {/* 테이블 태그 사용 */}
-        <thead>
-          <tr>
-            <th>이름</th>
-            <th>전화번호</th>
-            <th>이메일</th>
-            <th>수정/삭제</th>
-          </tr>
-        </thead>
-        <tbody>
-          {contacts.map((contact) => (
-            <tr key={contact.id}>
-              <td>
-                {editModes[contact.id] ? ( // 수정 모드인 경우
-                  <input
-                    type="text"
-                    value={editValues[contact.id]?.name || contact.name} // 수정 값 state 사용
-                    onChange={(e) => {
-                      setEditValues({
-                        ...editValues, //  기존 editValues 객체의 모든 내용을 새로운 객체로 복사
-                        [contact.id]: {
-                          //  연락처 객체의 고유 ID 값으로, 이 키를 사용하여 editValues 객체에서 해당 연락처의 수정 값을 관리
-                          ...editValues[contact.id], //  기존 editValues 객체에서 contact.id에 해당하는 객체의 모든 내용을 새로운 객체로 복사
-                          name: e.target.value, //  현재 input 상자의 값
-                        },
-                      });
-                    }}
-                  />
-                ) : (
-                  // 일반 모드인 경우
-                  <span>{contact.name}</span>
-                )}
-              </td>
-              <td>
-                {editModes[contact.id] ? (
-                  <input
-                    type="text"
-                    value={editValues[contact.id]?.phone_number || contact.phone_number}
-                    onChange={(e) => {
-                      setEditValues({
-                        ...editValues,
-                        [contact.id]: {
-                          ...editValues[contact.id],
-                          hp: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                ) : (
-                  <span>{contact.phone_number}</span>
-                )}
-              </td>
-              <td>
-                {editModes[contact.id] ? (
-                  <input
-                    type="text"
-                    value={editValues[contact.id]?.email || contact.email}
-                    onChange={(e) => {
-                      setEditValues({
-                        ...editValues,
-                        [contact.id]: {
-                          ...editValues[contact.id],
-                          tel: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                ) : (
-                  <span>{contact.email}</span>
-                )}
-              </td>
-              <td>
-                <button
-                  className="update-button"
-                  onClick={() => {
-                    setEditModes({ ...editModes, [contact.id]: true }); // 수정 모드 활성화
-                    setEditValues({
-                      ...editValues,
-                      [contact.id]: { ...contact }, // contact.id에 해당하는 객체를 contact 객체로 통째로 업데이트
-                    });
-                  }}
-                >
-                  수정
-                </button>
-                <button
-                  className="update-button"
-                  onClick={() => {
-                    updateContact(contact.id, editValues[contact.id]); //  editValues 객체에서 contact.id에 해당하는 값 - name, hp, tel
-                    setEditModes({ ...editModes, [contact.id]: false }); //  수정 모드 비활성화
-                  }}
-                >
-                  저장
-                </button>
-                <button
-                  className="delete-button"
-                  onClick={() => deleteContact(contact.id)}
-                >
-                  삭제
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* 오른쪽 상단 연락처 추가 버튼 
+      Todo: css 수정, add 페이지 구현 */}
+      <button className="add-button" onClick={() => navigate("/add")}>
+        +
+      </button>
+      {/* 검색창 
+      Todo: 아이콘 넣기 */}
+      <input
+        type="text"
+        placeholder="검색"
+        value={searchTerm}
+        onChange={handleSearch}
+        className="search-input"
+      />
+
+      {/* 연락처 리스트 */}
+      <ul className="contact-list">
+        {contacts.map((contact) => (
+          <li
+            key={contact.id}
+            onClick={() => navigate(`/contact/${contact.id}`)}
+            className="contact-item"
+          >
+            {searchTerm.trim() === "" || isNaN(searchTerm)
+          ? `${contact.name}` // 이름 검색 시 이름만
+          : `${contact.name} - ${contact.phone_number}` // 전화번호 검색 시 이름+전화번호 
+          // Todo: 스프링에서 코드 구현 필요, css 수정(이름 아래쪽에 전화번호 글자 작게)
+        }
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
 export default PhoneAppList;
+

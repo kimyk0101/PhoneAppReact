@@ -1,0 +1,37 @@
+/* PhoneAppList.css */
+.container {
+    padding: 20px;
+    margin-top: 50px;
+  }
+  .add-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    border: none;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  .search-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .contact-list {
+    list-style: none;
+    padding: 0;
+  }
+  .contact-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+  }
+  .contact-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  
