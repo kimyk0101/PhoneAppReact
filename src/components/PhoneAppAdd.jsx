@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/PhoneAppAdd.css"; // 스타일 시트 추가
+import "../css/PhoneAppAdd.css";
 
 function PhoneAppAdd() {
   const [contacts, setContacts] = useState([]);
@@ -82,11 +82,23 @@ function PhoneAppAdd() {
     }
   };
 
+  const handleInput = (e) => {
+    const textarea = e.target;
+    // 텍스트가 변경될 때마다 높이를 재조정
+    textarea.style.height = "auto"; // 먼저 높이를 auto로 리셋
+    textarea.style.height = `${textarea.scrollHeight}px`; // 내용에 맞게 높이 설정
+    setMemo(e.target.value); // memo 상태 업데이트
+  };
+
   return (
-    <div className="add-contact">
+    <div className="Add_add-contact">
+      {/* 돌아가기 버튼 */}
+      <button onClick={() => navigate("/")} className="Add_back-button">
+        🡸
+      </button>
       <h1>연락처 추가</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form className="Add_form" onSubmit={handleSubmit}>
+        <div className="Add_form-detail">
           <label htmlFor="name">이름:</label>
           <input
             type="text"
@@ -96,7 +108,7 @@ function PhoneAppAdd() {
             required
           />
         </div>
-        <div>
+        <div className="Add_form-detail">
           <label htmlFor="phone_number">전화번호:</label>
           <input
             type="text"
@@ -106,7 +118,7 @@ function PhoneAppAdd() {
             required
           />
         </div>
-        <div>
+        <div className="Add_form-detail">
           <label htmlFor="email">이메일:</label>
           <input
             type="text"
@@ -115,7 +127,7 @@ function PhoneAppAdd() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div>
+        <div className="Add_form-detail">
           <label htmlFor="nickname">닉네임:</label>
           <input
             type="text"
@@ -124,15 +136,17 @@ function PhoneAppAdd() {
             onChange={(e) => setNickname(e.target.value)}
           />
         </div>
-        <div>
+        <div className="Add_form-detail">
           <label htmlFor="memo">메모:</label>
           <textarea
             id="memo"
             value={memo}
-            onChange={(e) => setMemo(e.target.value)}
+            onChange={handleInput}
           />
         </div>
-        <button type="submit">저장</button>
+        <button className="Add_submit-button" type="submit">
+          저장
+        </button>
       </form>
     </div>
   );

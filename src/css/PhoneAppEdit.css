@@ -1,0 +1,80 @@
+.Edit-contact {
+  position: relative;
+}
+
+.Edit-contact h1 {
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 20px;
+  padding-top: 40px;
+}
+
+.Edit_cancel-button {
+  background-color: #f0f0f0;
+  color: #007bff;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  text-align: center;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.Edit_cancel-button:hover {
+  color: #ddd;
+}
+
+.Edit_submit-button {
+  background-color: #f0f0f0;
+  color: #007bff;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  text-align: center;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.Edit_submit-button:hover {
+  color: #ddd;
+}
+
+.Edit_form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.Edit_form-detail {
+  font-size: 1em;
+  padding: 10px 0;
+  width: 100%;
+  border: none;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+}
+
+.Edit_form-detail label {
+  font-size: 1em;
+  width: 20%;
+  margin: 0 10px;
+}
+
+.Edit_form-detail input {
+  font-size: 1em;
+  width: 60%;
+  height: 30px;
+}
+
+.Edit_form-detail textarea {
+  font-size: 1em;
+  width: 60%;
+  height: auto;
+  resize: vertical;
+}

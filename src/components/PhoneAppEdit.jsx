@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-// import "../css/PhoneAppEdit.css";
+import "../css/PhoneAppEdit.css";
 
 function PhoneAppEdit() {
   const { id } = useParams();
@@ -35,7 +35,13 @@ function PhoneAppEdit() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setContact((prev) => ({ ...prev, [name]: value }));
+    if (name === "memo") {
+      // 메모 입력 필드일 때 높이 자동 조정
+      const textarea = e.target;
+      textarea.style.height = "auto"; // 먼저 높이를 auto로 리셋
+      textarea.style.height = `${textarea.scrollHeight}px`; // 내용에 맞게 높이 설정
+    }
+    setContact((prev) => ({ ...prev, [name]: value })); // 상태 업데이트
   };
 
   const handleSubmit = async (e) => {
@@ -64,26 +70,67 @@ function PhoneAppEdit() {
   };
 
   return (
-    <div className="edit-contact">
-      <h2>연락처 수정</h2>
-      <form onSubmit={handleSubmit}>
-        <label>이름:</label>
-        <input type="text" name="name" value={contact.name} onChange={handleChange} required />
+    <div className="Edit-contact">
+      <button
+        onClick={() => navigate(`/contact/${id}`)}
+        className="Edit_cancel-button"
+      >
+        취소
+      </button>
+      <h1>연락처 수정</h1>
+      <form className="Edit_form" onSubmit={handleSubmit}>
+        <div className="Edit_form-detail">
+          <label htmlFor="name">이름:</label>
+          <input
+            type="text"
+            name="name"
+            value={contact.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="Edit_form-detail">
+          <label htmlFor="phone_number">전화번호:</label>
+          <input
+            type="text"
+            name="phone_number"
+            value={contact.phone_number}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <label>전화번호:</label>
-        <input type="text" name="phone_number" value={contact.phone_number} onChange={handleChange} required />
+        <div className="Edit_form-detail">
+          <label htmlFor="email">이메일:</label>
+          <input
+            type="email"
+            name="email"
+            value={contact.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <label>이메일:</label>
-        <input type="email" name="email" value={contact.email} onChange={handleChange} required/>
-
-        <label>닉네임:</label>
-        <input type="text" name="nickname" value={contact.nickname} onChange={handleChange} />
-
-        <label>메모:</label>
-        <textarea name="memo" value={contact.memo} onChange={handleChange}></textarea>
-
-        <button type="submit">저장</button>
-        <button type="button" onClick={() => navigate(`/contact/${id}`)}>취소</button>
+        <div className="Edit_form-detail">
+          <label htmlFor="nickname">닉네임:</label>
+          <input
+            type="text"
+            name="nickname"
+            value={contact.nickname}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="Edit_form-detail">
+          <label htmlFor="memo">메모:</label>
+          <textarea
+            name="memo"
+            value={contact.memo}
+            onChange={handleChange}
+          ></textarea>
+        </div>
+        <button className="Edit_submit-button" type="submit">
+          저장
+        </button>
       </form>
     </div>
   );

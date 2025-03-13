@@ -48,12 +48,15 @@ function PhoneAppDetail() {
   if (!contact) return <div>로딩 중...</div>;
 
   return (
-    <div className="contact-detail">
+    <div className="Detail_contact-detail">
       {/* 돌아가기 버튼 Todo: 왼쪽 상단에 */}
-      <button onClick={() => navigate("/")} className="back-button">
-        돌아가기
+      <button onClick={() => navigate("/")} className="Detail_back-button">
+        🡸
       </button>
-      <button onClick={() => navigate(`/edit/${id}`)} className="edit-button">
+      <button
+        onClick={() => navigate(`/edit/${id}`)}
+        className="Detail_edit-button"
+      >
         편집
       </button>
 
@@ -62,23 +65,23 @@ function PhoneAppDetail() {
 
       {/* 연락처 정보 */}
       <div className="contact-info">
-        <div className="row">
-          <span>전화번호:</span> <span>{contact.phone_number}</span>
+        <div className="Detail_row">
+          <span>전화번호:</span> <span className="Detail_span">{contact.phone_number}</span>
         </div>
-        <div className="row">
-          <span>이메일:</span> <span>{contact.email}</span>
+        <div className="Detail_row">
+          <span>이메일:</span> <span className="Detail_span">{contact.email}</span>
         </div>
-        <div className="row">
-          <span>닉네임:</span> <span>{contact.nickname}</span>
+        <div className="Detail_row">
+          <span>닉네임:</span> <span className="Detail_span">{contact.nickname}</span>
         </div>
-        <div className="row">
-          <span>메모:</span> <span>{contact.memo}</span>
+        <div className="Detail_row">
+          <span>메모:</span> <span className="Detail_span">{contact.memo}</span>
         </div>
+        {/* 연락처 삭제 버튼 */}
+        <button onClick={handleDelete} className="Detail_delete-button">
+          연락처 삭제
+        </button>
       </div>
-      {/* 연락처 삭제 버튼 */}
-      <button onClick={handleDelete} className="delete-button">
-        연락처 삭제
-      </button>
     </div>
   );
 }
