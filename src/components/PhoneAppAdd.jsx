@@ -9,9 +9,11 @@ function PhoneAppAdd() {
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
   const [memo, setMemo] = useState("");
+  const [photo, setPhoto] = useState(null); // 사진 상태 추가
   const navigate = useNavigate();
 
   const apiUrl = "http://localhost:8090/api/phoneApp"; // 서버 URL
+  const uploadUrl = "http://localhost:8090/api/phoneApp/photo/upload"; // 사진 업로드 API
 
   // 서버에서 연락처 목록을 받아오는 함수
   useEffect(() => {
@@ -31,6 +33,11 @@ function PhoneAppAdd() {
     fetchContacts();
   }, []);
 
+  // 사진 파일 선택 핸들러
+  const handleFileChange = (e) => {
+    setPhoto(e.target.files[0]);
+  };
+
   // 폼 제출 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,6 +46,31 @@ function PhoneAppAdd() {
     if (!name || !phoneNumber) {
       alert("이름과 전화번호는 필수 입력 사항입니다.");
       return;
+    }
+
+    let photoUrl = null;
+    // 사진이 있을 경우 업로드 처리
+    if (photo) {
+      const formData = new FormData();
+      formData.append("file", photo);
+
+      try {
+        const uploadResponse = await fetch(uploadUrl, {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error("사진 업로드 실패");
+        }
+
+        const uploadData = await uploadResponse.json();
+        photoUrl = uploadData.url; // 서버에서 받은 업로드된 이미지 URL
+      } catch (error) {
+        console.error("사진 업로드 오류:", error);
+        alert("사진 업로드에 실패했습니다.");
+        return;
+      }
     }
 
     // ID 계산 (기존 연락처 목록에서 가장 큰 ID에 1을 더한 값)
@@ -54,6 +86,7 @@ function PhoneAppAdd() {
       email,
       nickname,
       memo,
+      photoUrl, // 업로드된 사진 URL 추가
     };
 
     try {
@@ -138,12 +171,19 @@ function PhoneAppAdd() {
         </div>
         <div className="Add_form-detail">
           <label htmlFor="memo">메모:</label>
-          <textarea
-            id="memo"
-            value={memo}
-            onChange={handleInput}
+          <textarea id="memo" value={memo} onChange={handleInput} />
+        </div>
+
+        <div className="Add_form-detail">
+          <label htmlFor="photo">사진 업로드:</label>
+          <input
+            type="file"
+            id="photo"
+            accept="image/*"
+            onChange={handleFileChange}
           />
         </div>
+
         <button className="Add_submit-button" type="submit">
           저장
         </button>

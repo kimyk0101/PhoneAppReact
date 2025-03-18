@@ -60,19 +60,39 @@ function PhoneAppDetail() {
         편집
       </button>
 
+      {/* 프로필 사진 */}
+      <div className="Detail_profile">
+        {contact.photoUrl ? (
+          <img
+            src={contact.photoUrl}
+            alt="프로필 사진"
+            className="Detail_photo"
+          />
+        ) : (
+          <img
+            src="/default-profile.png"
+            alt="기본 프로필 사진"
+            className="Detail_photo"
+          />
+        )}
+      </div>
+
       {/* 이름 */}
       <h1>{contact.name}</h1>
 
       {/* 연락처 정보 */}
       <div className="contact-info">
         <div className="Detail_row">
-          <span>전화번호:</span> <span className="Detail_span">{contact.phone_number}</span>
+          <span>전화번호:</span>{" "}
+          <span className="Detail_span">{contact.phone_number}</span>
         </div>
         <div className="Detail_row">
-          <span>이메일:</span> <span className="Detail_span">{contact.email}</span>
+          <span>이메일:</span>{" "}
+          <span className="Detail_span">{contact.email}</span>
         </div>
         <div className="Detail_row">
-          <span>닉네임:</span> <span className="Detail_span">{contact.nickname}</span>
+          <span>닉네임:</span>{" "}
+          <span className="Detail_span">{contact.nickname}</span>
         </div>
         <div className="Detail_row">
           <span>메모:</span> <span className="Detail_span">{contact.memo}</span>
