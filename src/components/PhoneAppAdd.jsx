@@ -12,10 +12,10 @@ function PhoneAppAdd() {
   const [photo, setPhoto] = useState(null); // 사진 상태 추가
   const navigate = useNavigate();
 
-  const apiUrl = `http://${import.meta.env.VITE_API_HOST}:18088/api/phoneapp`; // 서버 URL
+  const apiUrl = `http://${import.meta.env.VITE_API_HOST}/api/phoneapp`; // 서버 URL
   const uploadUrl = `http://${
     import.meta.env.VITE_API_HOST
-  }:18088/api/shoplist/photo/upload`; // 사진 업로드 API
+  }/api/shoplist/photo/upload`; // 사진 업로드 API
 
   // 서버에서 연락처 목록을 받아오는 함수
   useEffect(() => {
