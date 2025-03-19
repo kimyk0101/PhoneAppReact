@@ -12,7 +12,7 @@ function PhoneAppAdd() {
   const [photo, setPhoto] = useState(null); // 사진 상태 추가
   const navigate = useNavigate();
 
-  const apiUrl = `http://${import.meta.env.VITE_API_HOST}/api/phoneapp`; // 서버 URL
+  const apiUrl = `http://${import.meta.env.VITE_API_HOST}/api/phoneApp`; // 서버 URL
   const uploadUrl = `http://${
     import.meta.env.VITE_API_HOST
   }/api/shoplist/photo/upload`; // 사진 업로드 API
