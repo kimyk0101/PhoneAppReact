@@ -6,7 +6,7 @@ function PhoneAppDetail() {
   const [contact, setContact] = useState(null);
   const { id } = useParams(); // URL에서 id를 가져옴
   const navigate = useNavigate();
-  const apiUrl = `http://localhost:8090/api/phoneApp/${id}`; // 특정 id에 맞는 API URL
+  const apiUrl = `http://${import.meta.env.VITE_API_HOST}/api/phoneApp/${id}`; // 특정 id에 맞는 API URL
 
   useEffect(() => {
     fetchContactDetail();
@@ -28,7 +28,9 @@ function PhoneAppDetail() {
   const handleDelete = async () => {
     if (window.confirm("정말로 삭제하시겠습니까?")) {
       try {
-        const deleteUrl = `http://localhost:8090/api/phoneApp/delete/${id}`;
+        const deleteUrl = `http://${
+          import.meta.env.VITE_API_HOST
+        }/api/phoneApp/delete/${id}`;
         const response = await fetch(deleteUrl, {
           method: "DELETE",
         });

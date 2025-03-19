@@ -7,7 +7,7 @@ function PhoneAppList() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-  const apiUrl = "http://localhost:8090/api/phoneApp";
+  const apiUrl = `http://${import.meta.env.VITE_API_HOST}/api/phoneApp`;
 
   useEffect(() => {
     fetchContacts();
@@ -40,12 +40,16 @@ function PhoneAppList() {
       } else if (!isNaN(value)) {
         //  숫자 입력 시
         response = await fetch(
-          `http://localhost:8090/api/phoneApp/search_phone_number/${value}`
+          `http://${
+            import.meta.env.VITE_API_HOST
+          }/api/phoneApp/search_phone_number/${value}`
         );
       } else {
         //  문자 입력 시
         response = await fetch(
-          `http://localhost:8090/api/phoneApp/search_name/${value}`
+          `http://${
+            import.meta.env.VITE_API_HOST
+          }/api/phoneApp/search_name/${value}`
         );
       }
 

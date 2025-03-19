@@ -5,8 +5,10 @@ import "../css/PhoneAppEdit.css";
 function PhoneAppEdit() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const apiUrl = `http://localhost:8090/api/phoneApp/${id}`;
-  const updateUrl = `http://localhost:8090/api/phoneApp/modify/${id}`;
+  const apiUrl = `http://${import.meta.env.VITE_API_HOST}/api/phoneApp/${id}`;
+  const updateUrl = `http://${
+    import.meta.env.VITE_API_HOST
+  }/api/phoneApp/modify/${id}`;
 
   const [contact, setContact] = useState({
     name: "",
