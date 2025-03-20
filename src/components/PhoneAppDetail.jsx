@@ -5,6 +5,7 @@ import "../css/PhoneAppDetail.css";
 function PhoneAppDetail() {
   const [contact, setContact] = useState(null);
   const { id } = useParams(); // URL에서 id를 가져옴
+  const [newPhoto, setNewPhoto] = useState(null); // 새로 업로드할 사진 상태 추가
   const navigate = useNavigate();
   const apiUrl = `http://${import.meta.env.VITE_API_HOST}/api/phoneApp/${id}`; // 특정 id에 맞는 API URL
 
@@ -22,6 +23,38 @@ function PhoneAppDetail() {
       setContact(data); // 연락처 정보를 상태에 저장
     } catch (error) {
       console.error("Error", error);
+    }
+  };
+
+  // 사진 불러오기 핸들러
+  const handleLoadImage = async () => {
+    if (!contact || !contact.photoUrl) {
+      console.log("사진 URL이 존재하지 않습니다.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:8088/api/phoneApp/photo/${contact.photoUrl}`,
+        {
+          method: "GET", // GET 방식으로 이미지 불러오기
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("이미지 불러오기 실패");
+      }
+
+      const imageUrl = await response.text();
+      console.log("불러온 이미지 URL:", imageUrl);
+
+      setContact((prevContact) => ({
+        ...prevContact,
+        photoUrl: imageUrl, // 실제 이미지 URL을 저장
+      }));
+    } catch (error) {
+      console.error("이미지 불러오기 중 오류:", error);
+      alert("이미지 불러오기에 실패했습니다.");
     }
   };
 
@@ -66,7 +99,7 @@ function PhoneAppDetail() {
       <div className="Detail_profile">
         {contact.photoUrl ? (
           <img
-            src={contact.photoUrl}
+            src={newPhoto || contact.photoUrl}
             alt="프로필 사진"
             className="Detail_photo"
           />
